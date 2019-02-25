@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/HomePage.scss";
 
 const HomePage = () => {
@@ -11,7 +12,9 @@ const HomePage = () => {
         <br />
         Zobacz jaka jest prędkość ISS w tej chwili!
       </p>
-      <button>Zaczynamy!</button>
+      <Link to="/pomiary">
+        <button>Zaczynamy!</button>
+      </Link>
     </div>
   );
 };

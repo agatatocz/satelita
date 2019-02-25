@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./styles/App.scss";
-import HomePage from "./components/HomePage";
 import Background from "./components/Background";
+import HomePage from "./components/HomePage";
+import Measurement from "./components/Measurement";
 
 class App extends Component {
   componentDidMount() {
@@ -58,10 +60,15 @@ class App extends Component {
   };
   render() {
     return (
-      <React.Fragment>
-        <Background />
-        <HomePage />
-      </React.Fragment>
+      <BrowserRouter>
+        <React.Fragment>
+          <Background />
+          <Switch>
+            <Route path="/pomiary" component={Measurement} />
+            <Route path="/" component={HomePage} />
+          </Switch>
+        </React.Fragment>
+      </BrowserRouter>
     );
   }
 }
