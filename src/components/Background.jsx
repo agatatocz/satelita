@@ -9,7 +9,8 @@ class Background extends Component {
       numberOfStars: window.innerWidth / 2,
       starsColors: ["#FFFFF6", "#FFF38B", "#FFF163"],
       minRadius: 0.5,
-      maxRadius: 1.5
+      maxRadius: 2,
+      shootingStar: null
     };
     this.canvas = React.createRef();
     this.contex = null;
@@ -17,22 +18,30 @@ class Background extends Component {
   }
 
   componentDidMount() {
+    this.contex = this.canvas.current.getContext("2d");
     this.canvasInit();
+    setInterval(this.draw, 20);
   }
 
   canvasInit = () => {
     this.setState({ numberOfStars: window.innerWidth / 2 });
     this.canvas.current.width = window.innerWidth;
     this.canvas.current.height = window.innerHeight;
-    this.contex = this.canvas.current.getContext("2d");
     this.starsInit();
   };
 
   draw = () => {
     const { width, height } = this.canvas.current;
-    this.contex.fillStyle = "#040533";
+    const { stars, shootingStar } = this.state;
+    this.contex.fillStyle = "rgba(4, 5, 51, 0.3)";
     this.contex.fillRect(0, 0, width, height);
-    this.state.stars.map(star => star.draw(this.contex));
+    stars.map(star => star.draw(this.contex));
+    if (shootingStar) {
+      shootingStar.draw(this.contex);
+      shootingStar.move();
+    }
+
+    if (!this.isStarOnScreen(shootingStar)) this.createShootingStar();
   };
 
   starsInit = () => {
@@ -44,14 +53,43 @@ class Background extends Component {
       radius = _.random(minRadius, maxRadius, true);
       x = _.random(radius, width - radius);
       y = _.random(0, height - radius);
-      dx = _.random(-5, 5);
-      dy = _.random(0, 4);
+      dx = 0;
+      dy = 0;
       color = starsColors[_.random(0, starsColors.length)];
       stars.push(new Star(x, y, dx, dy, radius, color));
     }
     this.setState({ stars }, () => {
       this.draw();
     });
+  };
+
+  createShootingStar = () => {
+    const { minRadius, maxRadius, starsColors } = this.state;
+    const { width, height } = this.canvas.current;
+    const radius = _.random(minRadius + 2, maxRadius + 2, true);
+    let dx = _.random(-radius, radius);
+    let dy = _.random(-radius, radius);
+
+    if (dx > -1 && dx < 1) dx = _.random(1, radius);
+    if (dy > -1 && dy < 1) dy = _.random(-radius, -1);
+
+    const shootingStar = new Star(
+      _.random(radius, width - radius),
+      _.random(0, height - radius),
+      dx,
+      dy,
+      radius,
+      starsColors[_.random(0, starsColors.length)]
+    );
+
+    this.setState({ shootingStar });
+  };
+
+  isStarOnScreen = star => {
+    const { width, height } = this.canvas.current;
+    return (
+      star && star.x > 0 && star.x < width && star.y > 0 && star.y < height
+    );
   };
 
   render() {
@@ -77,8 +115,11 @@ class Star {
     contex.beginPath();
     contex.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     contex.fillStyle = this.color;
-    contex.strokeStyle = this.color;
     contex.fill();
-    contex.stroke();
+  }
+
+  move() {
+    this.x += this.dx;
+    this.y += this.dy;
   }
 }
