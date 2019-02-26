@@ -19,3 +19,22 @@ button {
   border-radius: 5px;
   font-size: 1.2em;
 }
+
+.container-div {
+  background-color: #aaa;
+  opacity: 0.95;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  animation: scaleFromSmallToNormal 1s; // timing-function delay iteration-count direction fill-mode;
+}
+
+@keyframes scaleFromSmallToNormal {
+  from {
+    transform: scale(0, 0);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}

@@ -1,0 +1,9 @@
+.measurement-page {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template: 3fr 1fr / 1fr 1fr;
+}

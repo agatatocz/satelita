@@ -4,7 +4,7 @@ import "../styles/HomePage.scss";
 
 const HomePage = () => {
   return (
-    <div className="home-page">
+    <div className="home-page container-div">
       <h1>Międzynarodowa Stacja Kosmiczna (ISS)</h1>
       <p>
         okrąża Ziemię 15 razy dziennie, co oznacza, że musi poruszać się bardzo

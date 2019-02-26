@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./styles/App.scss";
 import Background from "./components/Background";
 import HomePage from "./components/HomePage";
-import Measurement from "./components/Measurement";
+import MeasurementPage from "./components/MeasurementPage";
 
 class App extends Component {
   componentDidMount() {
@@ -64,7 +64,7 @@ class App extends Component {
         <React.Fragment>
           <Background />
           <Switch>
-            <Route path="/pomiary" component={Measurement} />
+            <Route path="/pomiary" component={MeasurementPage} />
             <Route path="/" component={HomePage} />
           </Switch>
         </React.Fragment>

@@ -1,16 +1,5 @@
 .measurement {
-  width: 60%;
-  background-color: #aaa;
-  opacity: 0.95;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-
+  grid-area: 1/1/2/2;
   .spans {
     width: 90%;
     margin: 10px auto;

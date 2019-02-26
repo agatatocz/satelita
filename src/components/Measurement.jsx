@@ -13,7 +13,7 @@ class Measurement extends Component {
 
   render() {
     return (
-      <div className="measurement">
+      <div className="measurement container-div">
         <h4>
           Aby wyznaczyć prędkość Międzynarodowej Stacji Kosmicznej, należy
           dokonać dwóch odczytów jej położenia.
