@@ -1,0 +1,30 @@
+.results {
+  grid-area: 1/2/2/3;
+
+  h4,
+  p {
+    margin: 0;
+  }
+
+  .results-list {
+    text-align: left;
+    margin: 10px;
+    overflow: auto;
+    max-height: 90%;
+    scroll-behavior: smooth;
+
+    // .results-list-item-div {
+    // border: 1px black solid;
+    ol {
+      // background-color: #faf4bd;
+      // border-radius: 20px;
+      margin: 0;
+
+      li,
+      p {
+        padding: 5px;
+        border-bottom: 1px black dotted;
+      }
+    }
+  }
+}

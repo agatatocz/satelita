@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/CurrentDistance.scss";
+import "../styles/CurrentDistanceSection.scss";
 
-const CurrentDistance = () => {
+const CurrentDistanceSection = () => {
   return (
     <div className="current-distance container-div">
       <h3>
@@ -12,4 +12,4 @@ const CurrentDistance = () => {
   );
 };
 
-export default CurrentDistance;
+export default CurrentDistanceSection;
