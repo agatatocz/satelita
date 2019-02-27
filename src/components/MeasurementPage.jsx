@@ -8,7 +8,7 @@ class MeasurementPage extends Component {
   state = {
     locations: [],
     results: [],
-    delay: 1,
+    delay: 5,
     currentDistance: null
   };
 

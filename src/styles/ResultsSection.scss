@@ -13,17 +13,26 @@
     max-height: 90%;
     scroll-behavior: smooth;
 
-    // .results-list-item-div {
-    // border: 1px black solid;
     ol {
-      // background-color: #faf4bd;
-      // border-radius: 20px;
       margin: 0;
+      padding: 0; // 1em;
 
-      li,
+      .results-list-item-div {
+        background-color: #999;
+        border-radius: 5px;
+        border: 1px #070f37 solid;
+        margin-bottom: 5px;
+        padding: 0.5em 1.5em;
+        margin-right: 4px;
+      }
+      li {
+        padding: 5px;
+        border-bottom: 1px #070f37 dotted;
+      }
+
       p {
         padding: 5px;
-        border-bottom: 1px black dotted;
+        font-weight: bold;
       }
     }
   }

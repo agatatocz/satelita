@@ -1,14 +1,13 @@
 import React from "react";
-import _ from "lodash";
 
 const SingleResult = ({ result }) => {
   return result ? (
     <p>
       Czas: {result.secondsBetween}s
       <br />
-      Droga: {_.round(result.distance, 4)} km
+      Droga: {result.distance} km
       <br />
-      Prędkość: {_.round(result.kmPerHour, 4)} km/h
+      Prędkość: {result.kmPerHour} km/h
     </p>
   ) : null;
 };

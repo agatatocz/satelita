@@ -1,13 +1,14 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import "../styles/MeasurementSection.scss";
 
 class MeasurementSection extends Component {
+  state = {
+    newestResult: null
+  };
+
   measure = () => {
-    let firstFetch;
-    this.fetchData().then(data => {
-      firstFetch = data;
-      this.props.addLocation(firstFetch);
-    });
+    this.setState({ newestResult: null });
 
     let promise = new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -15,24 +16,40 @@ class MeasurementSection extends Component {
       }, this.props.delay * 1000);
     });
 
-    promise.then(secondFetch => {
-      this.props.addLocation(secondFetch);
+    this.fetchData()
+      .then(data => {
+        const firstFetch = data;
+        this.props.addLocation(firstFetch);
 
-      const distance = this.getDistance(
-        firstFetch.x,
-        firstFetch.y,
-        secondFetch.x,
-        secondFetch.y
-      );
-      const secondsBetween = secondFetch.time - firstFetch.time;
-      const kmPerHour = this.getVelocity(distance, secondsBetween / 3600); // km/h
+        promise.then(secondFetch => {
+          this.props.addLocation(secondFetch);
 
-      this.props.addResult({
-        secondsBetween,
-        distance,
-        kmPerHour
-      });
-    });
+          const distance = _.round(
+            this.getDistance(
+              firstFetch.x,
+              firstFetch.y,
+              secondFetch.x,
+              secondFetch.y
+            ),
+            4
+          );
+          const secondsBetween = secondFetch.time - firstFetch.time;
+          const kmPerHour = _.round(
+            this.getVelocity(distance, secondsBetween / 3600),
+            4
+          );
+
+          const newestResult = {
+            secondsBetween,
+            distance,
+            kmPerHour
+          };
+
+          this.props.addResult(newestResult);
+          this.setState({ newestResult });
+        });
+      })
+      .catch(error => console.error(error));
   };
 
   fetchData = async () => {
@@ -43,7 +60,8 @@ class MeasurementSection extends Component {
         x = res.iss_position.latitude;
         y = res.iss_position.longitude;
         time = res.timestamp;
-      });
+      })
+      .catch(error => console.error(error));
     return { x, y, time };
   };
 
@@ -62,6 +80,7 @@ class MeasurementSection extends Component {
   };
 
   render() {
+    const { newestResult } = this.state;
     return (
       <div className="measurement container-div">
         <h4>
@@ -74,13 +93,20 @@ class MeasurementSection extends Component {
         </div>
         <input
           type="range"
-          min="1"
+          min="5"
           max="60"
           value={this.props.delay}
           onChange={e => this.props.setDelay(Number(e.currentTarget.value))}
           className="seconds-slider"
         />
         <button onClick={this.measure}>START</button>
+        {newestResult ? (
+          <p>
+            ISS w ciągu {newestResult.secondsBetween}s przebyła{" "}
+            {newestResult.distance}km poruszając się ze średnią prędkością{" "}
+            {newestResult.kmPerHour}km/h.
+          </p>
+        ) : null}
       </div>
     );
   }
