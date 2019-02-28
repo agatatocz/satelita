@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import "../styles/ResultsSection.scss";
+import "../../styles/ResultsSection.scss";
 import ResultsListItem from "./ResulstListItem";
 import SingleResult from "./SingleResult";
 

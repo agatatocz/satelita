@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/CurrentDistanceSection.scss";
+import "../../styles/CurrentDistanceSection.scss";
 
 const CurrentDistanceSection = () => {
   return (

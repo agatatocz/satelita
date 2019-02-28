@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import MeasurementSection from "./MeasurementSection";
-import ResultsSection from "./ResultsSection";
-import CurrentDistanceSection from "./CurrentDistanceSection";
+import MeasurementSection from "./MeasurementSection/MeasurementSection";
+import ResultsSection from "./ResultsSection/ResultsSection";
+import CurrentDistanceSection from "./CurrentDistanceSection/CurrentDistanceSection";
 import "../styles/MeasurementPage.scss";
 
 class MeasurementPage extends Component {

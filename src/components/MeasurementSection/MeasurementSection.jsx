@@ -1,14 +1,24 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import "../styles/MeasurementSection.scss";
+import "../../styles/MeasurementSection.scss";
+import ResultMsg from "./ResultMsg";
+import InitialContent from "./InitialContent";
+import Timer from "./Timer";
 
 class MeasurementSection extends Component {
   state = {
-    newestResult: null
+    newestResult: null,
+    startBtnDisabled: false,
+    showTimer: false,
+    timerValue: 0
   };
 
   measure = () => {
-    this.setState({ newestResult: null });
+    this.setState({
+      newestResult: null,
+      startBtnDisabled: true,
+      timerValue: this.props.delay
+    });
 
     let promise = new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -20,6 +30,8 @@ class MeasurementSection extends Component {
       .then(data => {
         const firstFetch = data;
         this.props.addLocation(firstFetch);
+
+        this.startTimer();
 
         promise.then(secondFetch => {
           this.props.addLocation(secondFetch);
@@ -46,7 +58,7 @@ class MeasurementSection extends Component {
           };
 
           this.props.addResult(newestResult);
-          this.setState({ newestResult });
+          this.setState({ newestResult, startBtnDisabled: false });
         });
       })
       .catch(error => console.error(error));
@@ -79,34 +91,41 @@ class MeasurementSection extends Component {
     return distance / time;
   };
 
+  startTimer = () => {
+    this.setState({ showTimer: true });
+    const timer = setInterval(() => {
+      this.setState({ timerValue: this.state.timerValue - 1 }, () => {
+        if (this.state.timerValue < 0) this.stopTimer(timer);
+      });
+    }, 1000);
+  };
+
+  stopTimer = timer => {
+    this.setState({ showTimer: false });
+    clearInterval(timer);
+  };
+
   render() {
-    const { newestResult } = this.state;
+    const {
+      newestResult,
+      startBtnDisabled,
+      showTimer,
+      timerValue
+    } = this.state;
     return (
       <div className="measurement container-div">
-        <h4>
-          Aby wyznaczyć prędkość Międzynarodowej Stacji Kosmicznej, należy
-          dokonać dwóch odczytów jej położenia.
-        </h4>
-        <div className="spans">
-          <span>Wybierz ilość sekund pomiędzy odczytami:</span>
-          <span style={{ fontWeight: "bold" }}>{this.props.delay}s</span>
-        </div>
-        <input
-          type="range"
-          min="5"
-          max="60"
-          value={this.props.delay}
-          onChange={e => this.props.setDelay(Number(e.currentTarget.value))}
-          className="seconds-slider"
+        <InitialContent
+          delay={this.props.delay}
+          setDelay={this.props.setDelay}
+          measure={this.measure}
+          btnDisabled={startBtnDisabled}
         />
-        <button onClick={this.measure}>START</button>
-        {newestResult ? (
-          <p>
-            ISS w ciągu {newestResult.secondsBetween}s przebyła{" "}
-            {newestResult.distance}km poruszając się ze średnią prędkością{" "}
-            {newestResult.kmPerHour}km/h.
-          </p>
-        ) : null}
+        <Timer
+          enable={showTimer}
+          value={timerValue}
+          maxValue={this.props.delay}
+        />
+        <ResultMsg enable={!showTimer} result={newestResult} />
       </div>
     );
   }

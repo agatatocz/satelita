@@ -16,13 +16,8 @@
     border-radius: 5px;
     background: #d3d3d3;
     outline: none;
-    // opacity: 0.7;
     -webkit-transition: 0.2s;
     transition: opacity 0.2s;
-
-    &:hover {
-      // opacity: 1;
-    }
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -41,6 +36,10 @@
       background: #4caf50;
       cursor: pointer;
     }
+
+    &:disabled {
+      opacity: 0.7;
+    }
   }
 
   button {
@@ -50,5 +49,12 @@
     &:hover {
       background-color: #088834;
     }
+    &:disabled {
+      opacity: 0.7;
+    }
+  }
+
+  #timer {
+    margin: 10px auto;
   }
 }
