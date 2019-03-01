@@ -1,6 +1,6 @@
 import React from "react";
 
-const MeasurementSectionInitialContent = props => {
+const InitialContent = props => {
   return (
     <React.Fragment>
       <h4>
@@ -27,4 +27,4 @@ const MeasurementSectionInitialContent = props => {
   );
 };
 
-export default MeasurementSectionInitialContent;
+export default InitialContent;

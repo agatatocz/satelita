@@ -1,5 +1,7 @@
 .measurement {
   grid-area: 1/1/2/2;
+  // display: flex;
+
   .spans {
     width: 90%;
     margin: 10px auto;
@@ -54,7 +56,15 @@
     }
   }
 
-  #timer {
-    margin: 10px auto;
+  #timer,
+  .result-msg {
+    margin: 30px auto;
+  }
+
+  .result-msg {
+    font-size: 1.2em;
+    border: 2px #11454f dashed;
+    padding: 20px;
+    border-radius: 15px;
   }
 }

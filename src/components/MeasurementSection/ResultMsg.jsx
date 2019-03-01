@@ -1,12 +1,14 @@
 import React from "react";
 
-const MeasurementSectionResultMsg = ({ enable, result }) => {
+const ResultMsg = ({ enable, result }) => {
   return enable && result ? (
-    <p>
-      ISS w ciągu {result.secondsBetween}s przebyła {result.distance}km
-      poruszając się ze średnią prędkością {result.kmPerHour}km/h.
+    <p className="result-msg">
+      ISS w ciągu {result.secondsBetween}s przebyła{" "}
+      <span style={{ fontWeight: "bold" }}>{result.distance}km </span>
+      poruszając się ze średnią prędkością{" "}
+      <span style={{ fontWeight: "bold" }}>{result.kmPerHour}km/h</span>.
     </p>
   ) : null;
 };
 
-export default MeasurementSectionResultMsg;
+export default ResultMsg;

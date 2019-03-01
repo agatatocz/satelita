@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 
-// const colors = ["#FF4015", "#FFA111", "#FFE012", "#BDF50F", "#35FA2A"];
-// const firstColor = "#731630";
 const firstColor = "#888";
-// const secondColor = "rgba(7, 15, 55, 0.8)";
-let secondColor = "#1C8516";
+let secondColor = "#199935";
 const textColor = "#fff";
 
 class Timer extends Component {
@@ -36,11 +33,6 @@ class Timer extends Component {
     c.arc(0, 0, R, 0, 2 * Math.PI);
     c.fill();
     c.closePath();
-
-    // console.log((maxValue - value) / maxValue);
-    // if ((maxValue - value) / maxValue >= 0.25) secondColor = colors[2];
-    // if ((maxValue - value) / maxValue >= 0.5) secondColor = colors[3];
-    // if ((maxValue - value) / maxValue >= 0.75) secondColor = colors[4];
 
     c.beginPath();
     c.fillStyle = secondColor;
