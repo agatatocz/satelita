@@ -1,3 +1,5 @@
+@import "./animations.scss";
+
 .measurement {
   grid-area: 1/1/2/2;
   // display: flex;
@@ -59,6 +61,7 @@
   #timer,
   .result-msg {
     margin: 30px auto;
+    animation: scaleFromSmallToNormal 1s;
   }
 
   .result-msg {

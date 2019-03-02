@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu");
+@import "./animations.scss";
 
 body {
   margin: 0;
@@ -27,14 +28,5 @@ button {
   padding: 20px;
   margin: 10px;
   text-align: center;
-  animation: scaleFromSmallToNormal 1s; // timing-function delay iteration-count direction fill-mode;
-}
-
-@keyframes scaleFromSmallToNormal {
-  from {
-    transform: scale(0, 0);
-  }
-  to {
-    transform: scale(1, 1);
-  }
+  animation: scaleFromSmallToNormal 1s;
 }

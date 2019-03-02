@@ -14,30 +14,39 @@ class MeasurementSection extends Component {
   };
 
   measure = () => {
+    const {
+      delay,
+      fetchData,
+      addLocation,
+      addResult,
+      getDistance,
+      getVelocity
+    } = this.props;
+
     this.setState({
       newestResult: null,
       startBtnDisabled: true,
-      timerValue: this.props.delay
+      timerValue: delay
     });
 
     let promise = new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.fetchData());
-      }, this.props.delay * 1000);
+        resolve(fetchData());
+      }, delay * 1000);
     });
 
-    this.fetchData()
+    fetchData()
       .then(data => {
         const firstFetch = data;
-        this.props.addLocation(firstFetch);
+        addLocation(firstFetch);
 
         this.startTimer();
 
         promise.then(secondFetch => {
-          this.props.addLocation(secondFetch);
+          addLocation(secondFetch);
 
           const distance = _.round(
-            this.getDistance(
+            getDistance(
               firstFetch.x,
               firstFetch.y,
               secondFetch.x,
@@ -47,7 +56,7 @@ class MeasurementSection extends Component {
           );
           const secondsBetween = secondFetch.time - firstFetch.time;
           const kmPerHour = _.round(
-            this.getVelocity(distance, secondsBetween / 3600),
+            getVelocity(distance, secondsBetween / 3600),
             4
           );
 
@@ -57,45 +66,18 @@ class MeasurementSection extends Component {
             kmPerHour
           };
 
-          this.props.addResult(newestResult);
+          addResult(newestResult);
           this.setState({ newestResult, startBtnDisabled: false });
         });
       })
       .catch(error => console.error(error));
   };
 
-  fetchData = async () => {
-    let x, y, time;
-    await fetch("http://api.open-notify.org/iss-now.json")
-      .then(res => res.json())
-      .then(res => {
-        x = res.iss_position.latitude;
-        y = res.iss_position.longitude;
-        time = res.timestamp;
-      })
-      .catch(error => console.error(error));
-    return { x, y, time };
-  };
-
-  getDistance = (x1, y1, x2, y2) => {
-    return (
-      Math.sqrt(
-        Math.pow(x2 - x1, 2) +
-          Math.pow(Math.cos((x1 * Math.PI) / 180) * (y2 - y1), 2)
-      ) *
-      (40075.704 / 360)
-    );
-  };
-
-  getVelocity = (distance, time) => {
-    return distance / time;
-  };
-
   startTimer = () => {
     this.setState({ showTimer: true });
     const timer = setInterval(() => {
       this.setState({ timerValue: this.state.timerValue - 1 }, () => {
-        if (this.state.timerValue < 0) this.stopTimer(timer);
+        if (this.state.timerValue <= 0) this.stopTimer(timer);
       });
     }, 1000);
   };
@@ -112,6 +94,7 @@ class MeasurementSection extends Component {
       showTimer,
       timerValue
     } = this.state;
+
     return (
       <div className="measurement container-div">
         <InitialContent

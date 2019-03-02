@@ -10,6 +10,9 @@ const ResultsSection = ({ locations, results }) => {
     <div className="results container-div">
       <h4>Twoje pomiary</h4>
       <div className="results-list">
+        {locations.length ? null : (
+          <p>Wykonaj pierwsze pomiary klikając "START"!</p>
+        )}
         <ol>
           {locationPairs.map((pair, i) => (
             <div className="results-list-item-div" key={pair[0].time}>

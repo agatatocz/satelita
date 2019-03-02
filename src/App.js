@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import "font-awesome/css/font-awesome.min.css";
 import "./styles/App.scss";
 import Background from "./components/Background";
 import HomePage from "./components/HomePage";

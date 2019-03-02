@@ -8,8 +8,8 @@ class MeasurementPage extends Component {
   state = {
     locations: [],
     results: [],
-    delay: 5,
-    currentDistance: null
+    delay: 5
+    // currentDistance: null
   };
 
   addLocation = location => {
@@ -28,24 +28,58 @@ class MeasurementPage extends Component {
     this.setState({ delay });
   };
 
-  setCurrentDistance = currentDistance => {
-    this.setState({ currentDistance });
+  // setCurrentDistance = currentDistance => {
+  //   this.setState({ currentDistance });
+  // };
+
+  fetchData = async () => {
+    let x, y, time;
+    await fetch("http://api.open-notify.org/iss-now.json")
+      .then(res => res.json())
+      .then(res => {
+        x = res.iss_position.latitude;
+        y = res.iss_position.longitude;
+        time = res.timestamp;
+      })
+      .catch(error => console.error(error));
+    return { x, y, time };
+  };
+
+  getDistance = (x1, y1, x2, y2) => {
+    return (
+      Math.sqrt(
+        Math.pow(x2 - x1, 2) +
+          Math.pow(Math.cos((x1 * Math.PI) / 180) * (y2 - y1), 2)
+      ) *
+      (40075.704 / 360)
+    );
+  };
+
+  getVelocity = (distance, time) => {
+    return distance / time;
   };
 
   render() {
+    const { locations, results, delay } = this.state;
     return (
       <div className="measurement-page">
         <MeasurementSection
-          delay={this.state.delay}
+          delay={delay}
           setDelay={this.setDelay}
           addLocation={this.addLocation}
           addResult={this.addResult}
+          fetchData={this.fetchData}
+          getDistance={this.getDistance}
+          getVelocity={this.getVelocity}
         />
-        <ResultsSection
-          locations={this.state.locations}
-          results={this.state.results}
-        />
-        <CurrentDistanceSection />
+        <ResultsSection locations={locations} results={results} />
+        {locations.length > 1 ? (
+          <CurrentDistanceSection
+            firstResult={locations[0]}
+            fetchData={this.fetchData}
+            getDistance={this.getDistance}
+          />
+        ) : null}
       </div>
     );
   }
