@@ -9,7 +9,6 @@ class MeasurementPage extends Component {
     locations: [],
     results: [],
     delay: 5
-    // currentDistance: null
   };
 
   addLocation = location => {
@@ -28,10 +27,6 @@ class MeasurementPage extends Component {
     this.setState({ delay });
   };
 
-  // setCurrentDistance = currentDistance => {
-  //   this.setState({ currentDistance });
-  // };
-
   fetchData = async () => {
     let x, y, time;
     await fetch("http://api.open-notify.org/iss-now.json")
@@ -46,13 +41,21 @@ class MeasurementPage extends Component {
   };
 
   getDistance = (x1, y1, x2, y2) => {
-    return (
-      Math.sqrt(
-        Math.pow(x2 - x1, 2) +
-          Math.pow(Math.cos((x1 * Math.PI) / 180) * (y2 - y1), 2)
-      ) *
-      (40075.704 / 360)
-    );
+    const R = 6500 + 400; //promień ziemi + odległość ISS od ziemi (km)
+    x1 = (x1 * Math.PI) / 180;
+    y1 = (y1 * Math.PI) / 180;
+    x2 = (x2 * Math.PI) / 180;
+    y2 = (y2 * Math.PI) / 180;
+
+    const a =
+      Math.sin((x2 - x1) / 2) * Math.sin((x2 - x1) / 2) +
+      Math.cos(x1) *
+        Math.cos(x2) *
+        Math.sin((y2 - y1) / 2) *
+        Math.sin((y2 - y1) / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
   };
 
   getVelocity = (distance, time) => {
