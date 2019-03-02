@@ -15,7 +15,7 @@ class Background extends Component {
     this.canvas = React.createRef();
     this.contex = null;
     window.onresize = this.canvasInit;
-    // window.onloadend = this.canvasInit;
+    window.onload = this.canvasInit;
   }
 
   componentDidMount() {
@@ -44,7 +44,7 @@ class Background extends Component {
   draw = () => {
     const { width, height } = this.canvas.current;
     const { stars, shootingStar } = this.state;
-    this.contex.fillStyle = "rgba(4, 5, 51, 0.3)";
+    this.contex.fillStyle = "rgba(2, 2, 31, 0.3)";
     this.contex.fillRect(0, 0, width, height);
     stars.map(star => star.draw(this.contex));
     if (shootingStar) {

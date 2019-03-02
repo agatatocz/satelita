@@ -9,7 +9,7 @@ import MeasurementPage from "./components/MeasurementPage";
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <React.Fragment>
           <Background />
           <Switch>

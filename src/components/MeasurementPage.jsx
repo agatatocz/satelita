@@ -11,6 +11,11 @@ class MeasurementPage extends Component {
     delay: 5
   };
 
+  componentDidMount() {
+    window.resizeTo(window.screen.availWidth / 2, window.screen.availHeight);
+    console.log("MP");
+  }
+
   addLocation = location => {
     const locations = [...this.state.locations];
     locations.push(location);
