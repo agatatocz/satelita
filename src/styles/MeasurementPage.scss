@@ -7,5 +7,11 @@
   top: 0;
   left: 0;
   display: grid;
-  grid-template: 75% 25% / 1fr 1fr;
+  grid-template: 3fr 1fr / 1fr 1fr;
+}
+
+@media (max-width: 700px) {
+  .measurement-page {
+    grid-template: auto auto auto/ 100%;
+  }
 }
