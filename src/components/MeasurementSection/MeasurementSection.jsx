@@ -37,7 +37,6 @@ class MeasurementSection extends Component {
 
     fetchData()
       .then(data => {
-        console.log(data);
         const firstFetch = data;
         addLocation(firstFetch);
 

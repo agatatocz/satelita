@@ -15,6 +15,7 @@ class Background extends Component {
     this.canvas = React.createRef();
     this.contex = null;
     window.onresize = this.canvasInit;
+    // window.onloadend = this.canvasInit;
   }
 
   componentDidMount() {
@@ -26,7 +27,17 @@ class Background extends Component {
   canvasInit = () => {
     this.setState({ numberOfStars: window.innerWidth / 2 });
     this.canvas.current.width = window.innerWidth;
-    this.canvas.current.height = window.innerHeight;
+    this.canvas.current.height = Math.max(
+      window.innerHeight,
+      document.documentElement.scrollHeight
+    );
+    // console.log("scroll", document.documentElement.scrollHeight);
+    // console.log("client", document.documentElement.clientHeight);
+    // console.log("inner", window.innerHeight);
+    // console.log(
+    //   "max",
+    //   Math.max(window.innerHeight, document.documentElement.scrollHeight)
+    // );
     this.starsInit();
   };
 
