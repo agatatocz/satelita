@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import MeasurementSection from "./MeasurementSection/MeasurementSection";
 import ResultsSection from "./ResultsSection/ResultsSection";
 import CurrentDistanceSection from "./CurrentDistanceSection/CurrentDistanceSection";
@@ -10,11 +11,6 @@ class MeasurementPage extends Component {
     results: [],
     delay: 5
   };
-
-  componentDidMount() {
-    window.resizeTo(window.screen.availWidth / 2, window.screen.availHeight);
-    console.log("MP");
-  }
 
   addLocation = location => {
     const locations = [...this.state.locations];
@@ -41,8 +37,13 @@ class MeasurementPage extends Component {
         y = res.iss_position.longitude;
         time = res.timestamp;
       })
-      .catch(error => console.error(error));
-    return { x, y, time };
+      .catch(() => {
+        alert(
+          "Ups! Wystąpił błąd podczas pobierania danych. Sprawdź połączenie internetowe i spróbuj jeszcze raz."
+        );
+      });
+    if (x && y && time) return { x, y, time };
+    return null;
   };
 
   getDistance = (x1, y1, x2, y2) => {
@@ -60,11 +61,11 @@ class MeasurementPage extends Component {
         Math.sin((y2 - y1) / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return R * c;
+    return _.round(R * c, 4);
   };
 
   getVelocity = (distance, time) => {
-    return distance / time;
+    return _.round(distance / time, 4);
   };
 
   render() {

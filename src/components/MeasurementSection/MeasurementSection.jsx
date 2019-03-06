@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import _ from "lodash";
 import "../../styles/MeasurementSection.scss";
 import ResultMsg from "./ResultMsg";
 import InitialContent from "./InitialContent";
@@ -29,36 +28,30 @@ class MeasurementSection extends Component {
       timerValue: delay
     });
 
-    let promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(fetchData());
-      }, delay * 1000);
-    });
-
-    fetchData()
-      .then(data => {
+    fetchData().then(data => {
+      if (data) {
         const firstFetch = data;
         addLocation(firstFetch);
 
         this.startTimer();
 
+        let promise = new Promise(resolve => {
+          setTimeout(() => {
+            resolve(fetchData());
+          }, delay * 1000);
+        });
+
         promise.then(secondFetch => {
           addLocation(secondFetch);
 
-          const distance = _.round(
-            getDistance(
-              firstFetch.x,
-              firstFetch.y,
-              secondFetch.x,
-              secondFetch.y
-            ),
-            4
+          const distance = getDistance(
+            firstFetch.x,
+            firstFetch.y,
+            secondFetch.x,
+            secondFetch.y
           );
           const secondsBetween = secondFetch.time - firstFetch.time;
-          const kmPerHour = _.round(
-            getVelocity(distance, secondsBetween / 3600),
-            4
-          );
+          const kmPerHour = getVelocity(distance, secondsBetween / 3600);
 
           const newestResult = {
             secondsBetween,
@@ -67,10 +60,11 @@ class MeasurementSection extends Component {
           };
 
           addResult(newestResult);
-          this.setState({ newestResult, startBtnDisabled: false });
+          this.setState({ newestResult });
         });
-      })
-      .catch(error => console.error(error));
+      }
+      this.setState({ startBtnDisabled: false });
+    });
   };
 
   startTimer = () => {
@@ -95,19 +89,17 @@ class MeasurementSection extends Component {
       timerValue
     } = this.state;
 
+    const { delay, setDelay } = this.props;
+
     return (
       <div className="measurement container-div">
         <InitialContent
-          delay={this.props.delay}
-          setDelay={this.props.setDelay}
+          delay={delay}
+          setDelay={setDelay}
           measure={this.measure}
           btnDisabled={startBtnDisabled}
         />
-        <Timer
-          enable={showTimer}
-          value={timerValue}
-          maxValue={this.props.delay}
-        />
+        <Timer enable={showTimer} value={timerValue} maxValue={delay} />
         <ResultMsg enable={!showTimer} result={newestResult} />
       </div>
     );
