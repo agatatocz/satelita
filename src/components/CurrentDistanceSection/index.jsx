@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import "../../styles/CurrentDistanceSection.scss";
+import InitialButton from "./InitialButton";
+import DistanceButton from "./DistanceButton";
+import Header from "./Header";
 
 class CurrentDistanceSection extends Component {
   state = {
@@ -22,26 +25,14 @@ class CurrentDistanceSection extends Component {
     const { currentDistance } = this.state;
     return (
       <div className="current-distance-section container-div">
-        <h3>
-          Sprawdź, jaką drogę przebyła ISS od czasu twojego pierwszego pomiaru!
-        </h3>
-
+        <Header />
         {currentDistance ? (
-          <div className="current-distance">
-            <span>{currentDistance} km</span>
-            <button onClick={this.getCurrentDistance}>
-              <i className="fa fa-refresh" aria-hidden="true" />
-            </button>
-          </div>
+          <DistanceButton
+            currentDistance={currentDistance}
+            onClick={this.getCurrentDistance}
+          />
         ) : (
-          <button onClick={this.getCurrentDistance}>
-            KLIK!{" "}
-            <i
-              className="fa fa-rocket"
-              aria-hidden="true"
-              style={{ marginLeft: 10 }}
-            />
-          </button>
+          <InitialButton onClick={this.getCurrentDistance} />
         )}
       </div>
     );
