@@ -31,13 +31,6 @@ class Background extends Component {
       window.innerHeight,
       document.documentElement.scrollHeight
     );
-    // console.log("scroll", document.documentElement.scrollHeight);
-    // console.log("client", document.documentElement.clientHeight);
-    // console.log("inner", window.innerHeight);
-    // console.log(
-    //   "max",
-    //   Math.max(window.innerHeight, document.documentElement.scrollHeight)
-    // );
     this.starsInit();
   };
 
